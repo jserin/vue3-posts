@@ -1,13 +1,51 @@
 <template>
   <div>
-    <h2>게시글 상세</h2>
+    <h2>{{ form.title }}</h2>
+    <p>{{ form.content }}</p>
+    <p class="text-muted">{{ form.createdAt }}</p>
+
     <hr class="my-4">
-    {{ $route.params }}
+    <div class="row g-2">
+      <div class="col-auto">
+        <button class="btn btn-outline-dark">이전 글</button>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-dark">다음 글</button>
+      </div>
+      <div class="col-auto me-auto"></div>
+      <div class="col-auto">
+        <button class="btn btn-outline-dark" @click="goListPage">목록</button>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-primary" @click="goEditPage">수정</button>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-danger">삭제</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+import { getPostById } from '@/api/posts';
+import { ref } from 'vue';
 
+const props = defineProps({
+  id: Number,
+})
+
+const router = useRouter();
+// const id = route.params.id;
+const form = ref({});
+
+const fetchPost = () => {
+  const data = getPostById(props.id);
+  form.value = { ...data };
+}
+fetchPost();
+const goListPage = () => router.push({ name: 'PostList' });
+const goEditPage = () => router.push({ name: 'PostEdit', params:{id: props.id} });
 </script>
 
 <style lang="scss" scoped>

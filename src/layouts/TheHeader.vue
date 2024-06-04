@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">GYM CODING</a>
+        <a class="navbar-brand" href="/">GYM CODING</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -22,24 +22,33 @@
             <li class="nav-item">
               <RouterLink class="nav-link" active-class="active" to="/about">About</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/posts">Posts</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/nested">Nested</RouterLink>
+            </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Search
+          <div class="d-flex">
+            <button class="btn btn-outline-light" type="button" @click="goPage">
+              ADD POST
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </nav>
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const goPage = () => {
+  router.push({
+    name: 'PostCreate',
+  });
+}
+</script>
 
 <style lang="scss" scoped></style>
