@@ -1,0 +1,28 @@
+{
+  "posts": [
+    {
+      "title": "게시글 추가",
+      "content": "하하호호",
+      "createdAt": 1717563952297,
+      "id": 10
+    },
+    {
+      "title": "add posttttt",
+      "content": "dkldkjflksdjafkdf",
+      "createdAt": 1717568375992,
+      "id": 11
+    },
+    {
+      "title": "ehlskdy",
+      "content": "ehlsmdflsdmfk@",
+      "createdAt": 1717572196356,
+      "id": 12
+    },
+    {
+      "title": "gksdgjkasd",
+      "content": "123ffff_",
+      "createdAt": 1717572215478,
+      "id": 13
+    }
+  ]
+}
