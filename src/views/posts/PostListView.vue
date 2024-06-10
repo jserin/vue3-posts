@@ -2,29 +2,29 @@
   <div>
     <h2>게시글 목록</h2>
     <hr class="my-4">
-    <form @submit.prevent>
-      <div class="row g-3">
-        <div class="col">
-          <input v-model="params.title_like" type="text" class="form-control">
-        </div>
-        <div class="col-3">
-          <select v-model="params._limit" class="form-select">
-            <option value="3">3개씩 보기</option>
-            <option value="6">6개씩 보기</option>
-            <option value="9">9개씩 보기</option>
-          </select>
-        </div>
-      </div>
-    </form>
+    <PostFilter
+      v-model:title="params.title_like"
+      v-model:limit="params._limit"
+    />
     <hr class="my-4">
-    <div class="row g-3">
-      <div v-for="post in posts" :key="post.id" class="col-4">
-        <PostItem :title="post.title" :content="post.content" :created-at="post.createdAt"
-          @click="goPage(post.id)"
+    <AppGrid :items="posts">
+      <template v-slot="{item}">
+        <PostItem :title="item.title" :content="item.content" :created-at="item.createdAt"
+          @click="goPage(item.id)"
+          @modal="openModal(item)"
         ></PostItem>
-      </div>
-    </div>
-    <AppPagination :current-page="params._page" :page-count="pageCount" @page="page => params._page = page"/>
+      </template>
+    </AppGrid>
+    <AppPagination 
+      :current-page="params._page" 
+      :page-count="pageCount" 
+      @page="page => params._page = page"
+    />
+
+    <Teleport to="#modal">
+      <PostModal v-model="show" :title="modalTitle" :content="modalContent" :create-at="modalCreatedAt"></PostModal>
+    </Teleport>
+
     <template v-if="posts && posts.length > 0">
       <hr class="my-4">
       <AppCard>
@@ -37,8 +37,9 @@
 <script setup>
 import PostItem from '@/components/posts/PostItem.vue';
 import PostDetailView from '@/views/posts/PostDetailView.vue';
-import AppCard from '@/components/AppCard.vue';
-import AppPagination from '@/components/AppPagination.vue';
+import PostFilter from '@/components/posts/PostFilter.vue';
+import PostModal from '@/components/posts/PostModal.vue'
+
 import { getPosts } from "@/api/posts";
 import { computed, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
@@ -78,6 +79,20 @@ const goPage = id => {
     }
   })
 }
+
+//modal
+const show = ref(false);
+const modalTitle = ref('');
+const modalContent = ref('');
+const modalCreatedAt = ref('');
+
+const openModal = ({ title, content, createdAt }) => {
+  show.value = true;
+  modalTitle.value = title;
+  modalContent.value = content;
+  modalCreatedAt.value = createdAt;
+}
+
 </script>
 
 <style lang="scss" scoped>
