@@ -3,6 +3,7 @@
   <AppError v-else-if="error" :message="error.message"/>
   <div v-else>
     <h2>{{ post.title }}</h2>
+    <p>id: {{ props.id }}, isOdd: {{isOdd}}</p>
     <p>{{ post.content }}</p>
     <p class="text-muted">{{ $dayjs(post.createdAt).format('YYYY.MM.DD HH:mm:ss') }}</p>
     
@@ -36,9 +37,11 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router';
 import { useAlert } from '@/composables/alert';
 import { useAxios } from '@/hooks/useAxios';
+import { computed, toRef } from 'vue';
+import { useNumber } from '@/composables/number';
 
 const {vAlert, vSuccess} = useAlert();
 
@@ -47,8 +50,10 @@ const props = defineProps({
 })
 
 const router = useRouter();
-
-const { data: post, error, loading } = useAxios(`/posts/${props.id}`);
+const idRef = toRef(props, 'id')
+const {isOdd} = useNumber(idRef);
+const url = computed(() => `/posts/${props.id}`)
+const { data: post, error, loading } = useAxios(url);
 
 const {error: removeError, loading:removeLoading, execute} = useAxios(`/posts/${props.id}`,
   {method: 'delete'}, {
@@ -72,7 +77,22 @@ const remove = async() => {
 
 const goListPage = () => router.push({ name: 'PostList' });
 const goEditPage = () => router.push({ name: 'PostEdit', params:{id: props.id} });
+
+onBeforeRouteUpdate(() => {
+  console.log('onBeforeRouteUpdate');
+})
+
+onBeforeRouteLeave(() => {
+  console.log('onBeforeRouteLeave');
+})
 </script>
+
+<script>
+export default {
+  beforeRouteEnter() {
+    console.log('beforeRouteEnter');
+  }
+}</script>
 
 <style lang="scss" scoped>
 

@@ -2,7 +2,7 @@
   <header>
     <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">GYM CODING</a>
+        <RouterLink class="navbar-brand" to="/">LOGO</RouterLink>
         <button
           class="navbar-toggler"
           type="button"
@@ -27,6 +27,9 @@
             </li>
             <li class="nav-item">
               <RouterLink class="nav-link" active-class="active" to="/nested">Nested</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/my">MyPage</RouterLink>
             </li>
           </ul>
           <div class="d-flex">

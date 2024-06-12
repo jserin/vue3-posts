@@ -29,7 +29,7 @@ export const useAxios = (url, config = {}, options = {}) => {
     error.value = null;
 
     loading.value = true;
-    axios(url, {
+    axios(unref(url), {
       ...defaultConfig,
       ...config,
       params: unref(params),
@@ -50,7 +50,7 @@ export const useAxios = (url, config = {}, options = {}) => {
     })
   }
 
-  if (isRef(params)) {
+  if (isRef(params) || isRef(url)) {
     watchEffect(execute);
   } else {
     if (immediate) {
