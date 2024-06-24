@@ -33,9 +33,7 @@
             </li>
           </ul>
           <div class="d-flex">
-            <button class="btn btn-outline-light" type="button" @click="goPage">
-              ADD POST
-            </button>
+            <button class="btn btn-outline-light" type="button" @click="goPage">ADD POST</button>
           </div>
         </div>
       </div>
@@ -44,13 +42,13 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 const goPage = () => {
   router.push({
-    name: 'PostCreate',
-  });
+    name: 'PostCreate'
+  })
 }
 </script>
 
